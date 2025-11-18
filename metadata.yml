@@ -1,0 +1,13 @@
+end_date: '2025-09-05'
+n_rows: 31192
+n_tickers: 8
+start_date: '2015-01-02'
+tickers:
+- VOO
+- QQQ
+- EUNL.DE
+- XAR
+- TSLA
+- V
+- BTC-USD
+- XRP-USD
