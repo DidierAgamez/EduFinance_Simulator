@@ -1,4 +1,3 @@
-
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -158,7 +157,10 @@ fig.update_layout(
     xaxis_title="Fecha",
     yaxis_title="Precio",
     hovermode='x unified',
-    template='plotly_white'
+    template='plotly_white',
+    xaxis=dict(
+        range=['2017-11-01', '2025-09-30']
+    )
 )
 
 st.plotly_chart(fig, use_container_width=True)
