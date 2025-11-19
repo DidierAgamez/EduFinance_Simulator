@@ -1,3 +1,8 @@
+# EduFinance Simulator - Streamlit Dashboard
+# Proyecto: Análisis, Predicción y Simulación Financiera con Series de Tiempo
+# Autores: Didier J. Agamez, María V. Serna, Luis M. Díaz
+# Universidad Tecnológica de Bolívar
+
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -154,18 +159,43 @@ with tab_info:
         - Asume distribución más cercana a la normal
         """)
     
-    with st.expander("📏 ¿Qué es MAPE / RMSE?"):
+    with st.expander("📏 ¿Qué son RMSE, MAE y MAPE?"):
         st.markdown("""
         Son métricas para evaluar la precisión de las predicciones:
-        
-        **MAPE** (Mean Absolute Percentage Error):
-        - Error promedio en porcentaje
-        - Fácil de interpretar (ej: 5% de error)
         
         **RMSE** (Root Mean Squared Error):
         - Raíz del error cuadrático medio
         - Penaliza más los errores grandes
         - En las mismas unidades que la variable predicha
+        - Valores más bajos indican mejor precisión
+        
+        **MAE** (Mean Absolute Error):
+        - Error absoluto promedio
+        - Más robusto ante valores atípicos que RMSE
+        - Fácil de interpretar: promedio de cuánto se equivoca el modelo
+        
+        **MAPE** (Mean Absolute Percentage Error):
+        - Error promedio en porcentaje
+        - Fácil de interpretar (ej: 5% de error)
+        - Útil para comparar modelos en diferentes escalas
+        """)
+    
+    with st.expander("📐 ¿Qué son AIC y BIC?"):
+        st.markdown("""
+        **AIC** (Akaike Information Criterion) y **BIC** (Bayesian Information Criterion) 
+        son criterios para seleccionar el mejor modelo:
+        
+        - Evalúan el balance entre **bondad de ajuste** y **complejidad del modelo**
+        - **Valores más bajos** indican mejores modelos
+        - AIC penaliza menos la complejidad que BIC
+        - BIC favorece modelos más simples (parsimoniosos)
+        - Se usan para comparar diferentes órdenes ARIMA o GARCH
+        
+        **Fórmula general:**
+        - AIC = -2·log(L) + 2·k
+        - BIC = -2·log(L) + k·log(n)
+        
+        Donde L es la verosimilitud, k es el número de parámetros, y n el tamaño de muestra.
         """)
     
     st.markdown("---")
