@@ -84,7 +84,163 @@ asset = st.sidebar.selectbox(
     format_func=lambda x: f"{x} - {asset_info.get(x, 'Activo financiero')}"
 )
 
-show_info = st.sidebar.checkbox("Mostrar información básica", True)
+# Tabs para organizar la información
+tab_config, tab_info = st.sidebar.tabs(["⚙ Configuración", "ℹ Info del Proyecto"])
+
+with tab_config:
+    show_info = st.checkbox("Mostrar información básica", True)
+
+with tab_info:
+    st.markdown("### 📚 Sobre el Proyecto")
+    st.markdown("""
+    **EduFinance Simulator** es una herramienta interactiva para analizar, modelar y predecir 
+    el comportamiento de activos financieros mediante modelos estadísticos y de deep learning.
+    """)
+    
+    st.markdown("---")
+    st.markdown("### 🎓 Conceptos Clave")
+    
+    with st.expander("📊 ¿Qué es ARIMA?"):
+        st.markdown("""
+        **ARIMA** (AutoRegressive Integrated Moving Average) es un modelo estadístico clásico 
+        para predicción de series temporales que combina:
+        - **AR**: Autoregresión (valores pasados)
+        - **I**: Integración (diferenciación para estacionariedad)
+        - **MA**: Media móvil (errores pasados)
+        
+        Se usa para predecir precios futuros basándose en patrones históricos.
+        """)
+    
+    with st.expander("📈 ¿Qué es GARCH?"):
+        st.markdown("""
+        **GARCH** (Generalized AutoRegressive Conditional Heteroskedasticity) es un modelo 
+        que estima la **volatilidad condicional** de un activo financiero.
+        
+        - Captura la variabilidad del riesgo a lo largo del tiempo
+        - Modela cómo la volatilidad cambia en períodos de alta/baja incertidumbre
+        - Útil para gestión de riesgos y pricing de opciones
+        """)
+    
+    with st.expander("🧠 ¿Qué es LSTM?"):
+        st.markdown("""
+        **LSTM** (Long Short-Term Memory) es un tipo de red neuronal recurrente diseñada 
+        para aprender dependencias a largo plazo en secuencias de datos.
+        
+        - Ideal para series temporales complejas
+        - Captura patrones no lineales que ARIMA no puede modelar
+        - Se entrena con grandes volúmenes de datos históricos
+        """)
+    
+    with st.expander("📉 ¿Qué es Volatilidad?"):
+        st.markdown("""
+        La **volatilidad** mide cuánto varía el precio de un activo en un período de tiempo.
+        
+        - **Alta volatilidad**: Mayor riesgo y potencial de ganancia/pérdida
+        - **Baja volatilidad**: Movimientos de precio más estables
+        - Se calcula como la desviación estándar de los retornos
+        """)
+    
+    with st.expander("🔢 ¿Qué es Retorno Logarítmico?"):
+        st.markdown("""
+        El **retorno logarítmico** es una medida de cambio porcentual entre dos períodos:
+        
+        ```
+        r(t) = ln(P(t) / P(t-1))
+        ```
+        
+        **Ventajas:**
+        - Aditivo en el tiempo
+        - Simétrico (pérdidas y ganancias)
+        - Asume distribución más cercana a la normal
+        """)
+    
+    with st.expander("📏 ¿Qué es MAPE / RMSE?"):
+        st.markdown("""
+        Son métricas para evaluar la precisión de las predicciones:
+        
+        **MAPE** (Mean Absolute Percentage Error):
+        - Error promedio en porcentaje
+        - Fácil de interpretar (ej: 5% de error)
+        
+        **RMSE** (Root Mean Squared Error):
+        - Raíz del error cuadrático medio
+        - Penaliza más los errores grandes
+        - En las mismas unidades que la variable predicha
+        """)
+    
+    st.markdown("---")
+    st.markdown("### 💼 Activos Analizados")
+    
+    activos_detalle = {
+        "VOO": {
+            "nombre": "Vanguard S&P 500 ETF",
+            "tipo": "ETF",
+            "sector": "Diversificado (500 empresas de EE.UU.)",
+            "descripcion": "Replica el índice S&P 500, representa las 500 empresas más grandes de EE.UU."
+        },
+        "QQQ": {
+            "nombre": "Invesco QQQ Trust",
+            "tipo": "ETF",
+            "sector": "Tecnología (NASDAQ-100)",
+            "descripcion": "Sigue las 100 empresas tecnológicas más grandes del NASDAQ (Apple, Microsoft, Amazon, etc.)"
+        },
+        "EUNL.DE": {
+            "nombre": "iShares Core MSCI World",
+            "tipo": "ETF",
+            "sector": "Global - Mercados Desarrollados",
+            "descripcion": "Cobertura global con exposición a mercados desarrollados de todo el mundo."
+        },
+        "XAR": {
+            "nombre": "SPDR Aerospace & Defense",
+            "tipo": "ETF",
+            "sector": "Defensa y Aeroespacial",
+            "descripcion": "Empresas del sector defensa, aeronáutica y tecnología espacial."
+        },
+        "TSLA": {
+            "nombre": "Tesla Inc.",
+            "tipo": "Acción",
+            "sector": "Automotriz / Tecnología",
+            "descripcion": "Fabricante de vehículos eléctricos y soluciones de energía sostenible."
+        },
+        "V": {
+            "nombre": "Visa Inc.",
+            "tipo": "Acción",
+            "sector": "Servicios Financieros",
+            "descripcion": "Líder global en procesamiento de pagos digitales y tarjetas de crédito."
+        },
+        "BTC-USD": {
+            "nombre": "Bitcoin",
+            "tipo": "Criptomoneda",
+            "sector": "Activo Digital Descentralizado",
+            "descripcion": "Primera y más grande criptomoneda, conocida por su alta volatilidad y uso como reserva de valor digital."
+        },
+        "XRP-USD": {
+            "nombre": "XRP (Ripple)",
+            "tipo": "Criptomoneda",
+            "sector": "Pagos y Transferencias",
+            "descripcion": "Criptomoneda enfocada en pagos transfronterizos rápidos y de bajo costo."
+        }
+    }
+    
+    for ticker, info in activos_detalle.items():
+        with st.expander(f"**{ticker}** - {info['nombre']}"):
+            st.markdown(f"""
+            - **Tipo:** {info['tipo']}
+            - **Sector:** {info['sector']}
+            - **Descripción:** {info['descripcion']}
+            """)
+    
+    st.markdown("---")
+    st.markdown("### 👥 Equipo")
+    st.markdown("""
+    - **Didier Jesús Agamez Escobar**
+    - **María Valentina Serna González**
+    - **Luis Mario Díaz Martínez**
+    
+    *Universidad Tecnológica de Bolívar*
+    """)
+
+show_info = tab_config.checkbox("Mostrar información básica", True) if 'show_info' not in locals() else show_info
 
 # -------------------------------
 # PANEL DE INFORMACIÓN BÁSICA
